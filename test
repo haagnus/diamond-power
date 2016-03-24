@@ -1,0 +1,130 @@
+Start:
+	move.b  ($FFFFF812).w,d1	; key hold
+	andi.b  #$C0,d1	; which this is?
+	cmpi.b  #$C0,d1	; which this is?
+	bne.w   Cancel	; cancel
+		move.w  ($FFFFFC46).w,d0	; load helmet value
+		
+		cmpi.b  #0,d0
+		beq.w   The_Kid
+		
+		cmpi.b  #1,d0	
+		beq.w   Skycutter
+		
+		cmpi.b  #2,d0
+		beq.w   Cyclone
+		
+		cmpi.b  #3,d0
+		beq.w   Red_Stealth
+		
+		cmpi.b  #4,d0
+		beq.w   Eyeclops
+		
+		cmpi.b  #5,d0
+		beq.w   Juggernaut
+		
+		cmpi.b  #6,d0
+		beq.w   Iron_Knight
+		
+		cmpi.b  #7,d0
+		beq.w   Berzerker
+		
+		cmpi.b  #8,d0
+		beq.w   Maniaxe
+		
+		cmpi.b  #9,d0
+		beq.w   Micromax
+	
+The_Kid:
+	cmpi.w  #2,($FFFFFC42).w	 ; compare if there are two diamonds then continue
+	blt.w   Select		; if not cancel and jump to RTS
+		subi.w  #2,($FFFFFC42).w	 ; remove two diamonds
+		cmpi.w  #4,($FFFFFC42).w	 ; compare if there are four diamonds then continue
+		blt.w   Select		; if not then jump to original code
+			subi.w  #4,($FFFFFC42).w	 ; remove four diamonds
+			addi.w	#$A,d0	 ; add 10 bytes
+			bra.w Select	; jump to original code 
+
+Skycutter:
+	cmpi.w  #2,($FFFFFC42).w
+	blt.w   Cancel
+		subi.w  #2,($FFFFFC42).w
+		cmpi.w  #4,($FFFFFC42).w
+		blt.w   Select
+			subi.w  #4,($FFFFFC42).w
+			addi.b	#$A,d0
+			bra.w Select
+	
+Cyclone:
+	cmpi.w  #2,($FFFFFC42).w
+	blt.w   Cancel
+		subi.w  #2,($FFFFFC42).w
+		cmpi.w  #4,($FFFFFC42).w
+		blt.w   Select
+			subi.w  #4,($FFFFFC42).w
+			addi.w	#$A,d0
+			bra.w Select
+
+Red_Stealth:
+	cmpi.w  #2,($FFFFFC42).w
+	blt.w   Cancel
+		subi.w  #2,($FFFFFC42).w
+		cmpi.w  #4,($FFFFFC42).w
+		blt.w   Select
+			subi.w  #4,($FFFFFC42).w
+			addi.w	#$A,d0
+			bra.w Select
+	
+Eyeclops:
+	bra.w Cancel
+	
+Juggernaut:
+	tst.b   ($FFFFFA29).w	; test if shoot?
+	bne.w	Cancel
+    jmp	($0400BA).l
+
+Iron_Knight:
+	cmpi.w  #2,($FFFFFC42).w
+	blt.w   Cancel
+		subi.w  #2,($FFFFFC42).w
+		cmpi.w  #4,($FFFFFC42).w
+		blt.w   Select
+			subi.w  #4,($FFFFFC42).w
+			addi.w	#$A,d0
+			bra.w Select
+	
+Berzerker:
+	cmpi.w  #2,($FFFFFC42).w
+	blt.w   Cancel
+		subi.w  #2,($FFFFFC42).w
+		cmpi.w  #4,($FFFFFC42).w
+		blt.w   Select
+			subi.w  #4,($FFFFFC42).w
+			addi.w	#$A,d0
+			bra.w Select
+	
+Maniaxe:
+	cmpi.w  #2,($FFFFFC42).w
+	blt.w   Cancel
+		subi.w  #2,($FFFFFC42).w
+		cmpi.w  #4,($FFFFFC42).w
+		blt.w   Select
+			subi.w  #4,($FFFFFC42).w
+			addi.w	#$A,d0
+			bra.w Select
+	
+Micromax:
+	cmpi.w  #2,($FFFFFC42).w
+	blt.w   Select
+		subi.w  #2,($FFFFFC42).w
+		cmpi.w  #4,($FFFFFC42).w
+		blt.w   Select
+			subi.w  #4,($FFFFFC42).w
+			addi.w	#$A,d0
+			bra.w Select
+	
+Cancel:
+	rts
+	
+Select:
+	jmp	($03F6B4).l
